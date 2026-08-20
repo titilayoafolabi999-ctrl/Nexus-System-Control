@@ -3,7 +3,6 @@ from tkinter import filedialog, messagebox
 import os, shutil, psutil, requests
 from datetime import datetime
 
-# Global UI Configuration
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
@@ -12,33 +11,27 @@ class NexusOS(ctk.CTk):
         super().__init__()
         self.title("Nexus OS - System Toolkit")
         self.geometry("950x600")
-        
-        # Main Grid Layout
+
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
-        # --- SIDEBAR ---
         self.sidebar = ctk.CTkFrame(self, width=220, corner_radius=0)
         self.sidebar.grid(row=0, column=0, sticky="nsew")
         ctk.CTkLabel(self.sidebar, text="NEXUS COMMAND", font=("Roboto", 22, "bold")).pack(pady=30)
 
-        # Navigation
         self.setup_nav_button("📊 System Monitor", self.show_sys_monitor)
         self.setup_nav_button("🧹 File Janitor", self.show_janitor)
         self.setup_nav_button("🌤️ Weather Station", self.show_weather)
 
-        # Tool Description Box
         self.desc_box = ctk.CTkFrame(self.sidebar, fg_color="#2b2b2b", corner_radius=10)
         self.desc_box.pack(side="bottom", fill="x", padx=15, pady=20)
-        self.desc_label = ctk.CTkLabel(self.desc_box, text="System initialized. Select a tool.", 
+        self.desc_label = ctk.CTkLabel(self.desc_box, text="System initialized. Select a tool.",
                                       wraplength=180, font=("Roboto", 11), text_color="#aaaaaa")
         self.desc_label.pack(pady=10, padx=10)
 
-        # --- MAIN DISPLAY ---
         self.main_area = ctk.CTkFrame(self, corner_radius=15, fg_color="#1e1e1e")
         self.main_area.grid(row=0, column=1, padx=20, pady=(20, 50), sticky="nsew")
 
-        # --- STATUS BAR ---
         self.status_bar = ctk.CTkFrame(self, height=30, corner_radius=0)
         self.status_bar.place(relx=0, rely=1, relwidth=1, anchor="sw")
         self.time_lbl = ctk.CTkLabel(self.status_bar, text="", font=("Roboto", 11))
@@ -63,7 +56,6 @@ class NexusOS(ctk.CTk):
         self.clear_main()
         ctk.CTkLabel(self.main_area, text="WELCOME TO NEXUS OS", font=("Roboto", 32, "bold")).pack(expand=True)
 
-    # MODULE 1: SYSTEM MONITOR
     def show_sys_monitor(self):
         self.desc_label.configure(text="Live diagnostics: Tracking CPU and RAM utilization percentages.")
         self.clear_main()
@@ -81,7 +73,6 @@ class NexusOS(ctk.CTk):
             self.cpu_lbl.configure(text=f"CPU Load: {c}%"); self.ram_lbl.configure(text=f"RAM Load: {r}%")
             self.after(1000, self.refresh_sys)
 
-    # MODULE 2: FILE JANITOR
     def show_janitor(self):
         self.desc_label.configure(text="Storage Cleanup: Automatically sorts files into Images, Docs, Media, and Apps.")
         self.clear_main()
@@ -108,7 +99,6 @@ class NexusOS(ctk.CTk):
                     shutil.move(os.path.join(p, f), os.path.join(d, f)); cnt += 1
         messagebox.showinfo("Nexus Janitor", f"Process complete. {cnt} files organized.")
 
-    # MODULE 3: WEATHER STATION
     def show_weather(self):
         self.desc_label.configure(text="Satellite Data: Fetching real-time global weather conditions via API.")
         self.clear_main()
